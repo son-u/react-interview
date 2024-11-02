@@ -14,8 +14,9 @@ export default function Accordian() {
   }
 
   function handleMultiSelection(getCurrentId) {
-    let cpyMultiple = [...multiple];
+    let cpyMultiple = [...multiple]; // because we cannot directly change the state
     const findIndexOfCurrentId = cpyMultiple.indexOf(getCurrentId);
+
     console.log(findIndexOfCurrentId);
     if (findIndexOfCurrentId === -1) cpyMultiple.push(getCurrentId);
     else cpyMultiple.splice(findIndexOfCurrentId, 1);
@@ -26,9 +27,13 @@ export default function Accordian() {
   console.log(selected, multiple);
   return (
     <div className="wrapper">
-      <button onClick={() => setEnableMultiSelection(!enableMultiSelection)}>
+      <button
+        className={`button ${enableMultiSelection ? "button-active" : ""}`}
+        onClick={() => setEnableMultiSelection(!enableMultiSelection)}
+      >
         Enable Multi Selection
       </button>
+
       <div className="accordian">
         {data && data.length > 0 ? (
           data.map((dataItem) => (
@@ -42,8 +47,10 @@ export default function Accordian() {
                 className="title"
               >
                 <h3>{dataItem.question}</h3>
+
                 <span>+</span>
               </div>
+
               {enableMultiSelection
                 ? multiple.indexOf(dataItem.id) !== -1 && (
                     <div className="content">{dataItem.answer}</div>
@@ -52,13 +59,11 @@ export default function Accordian() {
                     <div className="content">{dataItem.answer}</div>
                   )}
 
-              {/* {selected === dataItem.id   || multiple.indexOf(dataItem.id) !== -1  ? (
-                <div className="content">{dataItem.answer}</div>
-              ) : null} */}
+              {/* {selected === dataItem.id ? <div className="content">{dataItem.answer}</div> : null} */}
             </div>
           ))
         ) : (
-          <div>No data found</div>
+          <div>No data Found</div>
         )}
       </div>
     </div>
